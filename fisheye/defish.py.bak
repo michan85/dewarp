@@ -87,7 +87,7 @@ def findHomography(img,template,quality=500.00,minDist=0.2,minMatch=0.4):
 
     idx,dist = img._getFLANNMatches(sd,td) # match our keypoint descriptors
     p = dist[:,0]
-    result = p*magic_ratio < minDist
+    result = p*magic_ratio < minDist 
     pr = result.shape[0]/float(dist.shape[0])
 
     if( pr > minMatch and len(result)>4 ): # if more than minMatch % matches we go ahead and get the data
@@ -107,14 +107,14 @@ def findHomography(img,template,quality=500.00,minDist=0.2,minMatch=0.4):
         return (homography,mask, (xm,ym))
     else:
         return None
-
+    
 def constructMask(w,h,offset,expf=1.2):
     # Create an alpha blur on the left followed by white
     # using some exponential value to get better results
     mask = Image((w,h))
     offset = int(offset)
     for i in range(0,offset):
-        factor =np.clip((float(i)**expf)/float(offset),0.0,1.0)
+        factor =np.clip((float(i)**expf)/float(offset),0.0,1.0) 
         c = int(factor*255.0)
         #this is oddness in slice, need to submit bug report
         mask[i:i+1,0:h] = (c,c,c)
@@ -122,7 +122,7 @@ def constructMask(w,h,offset,expf=1.2):
     mask.drawRectangle(offset,0,w-offset,h,color=(255,255,255),width=-1)
     mask = mask.applyLayers()
     return mask
-
+    
 def buildPano(defished):
     # Build the panoram from the defisheye images
     offsets = []
@@ -191,9 +191,9 @@ def main(argv):
         temp = result.sideBySide(s)
         temp.save("{0}View{1}.png".format(outputdir,idx))
         result.save("{0}DeWarp{1}.png".format(outputdir,idx))
-        #temp.show()
+        temp.show()
         time.sleep(1)
-    # Build the pano
+    # Build the pano 
     final = buildPano(defished)
     final.show()
     final.save('{0}final.png'.format(outputdir))
@@ -203,3 +203,6 @@ def main(argv):
 
 if __name__ == "__main__":
    main(sys.argv[1:])
+
+
+         
